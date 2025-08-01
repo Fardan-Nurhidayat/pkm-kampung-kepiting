@@ -60,7 +60,7 @@
           class="font-bold text-xl mb-2 text-third group-hover:text-primary transition-colors cursor-pointer">
           {{ $blog->title }}
         </a>
-        <p class="text-gray-600 flex-1">{{ $blog->excerpt}}</p>
+        <p class="text-gray-600 flex-1">{!! $blog->excerpt !!}</p>
         <!-- Like Badge -->
         <div class="flex items-center gap-2 mb-4 mt-2">
           <div class="flex items-center gap-1 bg-primaryBg text-primary px-3 py-1 rounded-full text-sm font-medium">
