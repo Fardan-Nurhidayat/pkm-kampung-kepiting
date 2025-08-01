@@ -13,11 +13,11 @@ class BlogsController extends Controller
      */
     public function index()
     {
-        $blogs = Cache::remember('blogs', 60, function () {
+        $blogs = Cache::remember('blogs', 600, function () {
             return Blogs::with('author')->latest()->get();
         });
 
-        return view('blogs', [
+        return view('blogs.index', [
             'blogs' => $blogs,
         ]);
     }
@@ -41,9 +41,25 @@ class BlogsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        $blog = Cache::remember("blog_{$slug}", 600, function () use ($slug) {
+            return Blogs::where('slug', $slug)->with('author')->firstOrFail();
+        });
+
+        $relatedBlogs = Cache::remember("related_blogs_{$blog->id}", 600, function () use ($blog) {
+            return Blogs::where('category', $blog->category)
+                ->where('id', '!=', $blog->id)
+                ->with('author')
+                ->latest()
+                ->take(3)
+                ->get();
+        });
+
+        return view('blogs.show', [
+            'blog' => $blog,
+            'relatedBlogs' => $relatedBlogs,
+        ]);
     }
 
     /**

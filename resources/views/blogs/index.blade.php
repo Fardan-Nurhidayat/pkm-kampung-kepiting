@@ -53,19 +53,18 @@
       <div class="relative">
         <img src="{{asset('storage/' . $blog->image)}}"
           class="h-56 w-full object-cover group-hover:scale-105 transition-transform duration-300">
-        <span
-          class="absolute top-4 left-4 bg-primary text-white text-xs px-3 py-1 rounded-full font-semibold shadow">{{$blog->category}}</span>
       </div>
       <div class="p-6 flex-1 flex flex-col">
+        <span class="my-4 text-md text-primary font-semibold">{{$blog->category}}</span>
         <a href="{{ route('blogs.show', $blog->slug) }}"
           class="font-bold text-xl mb-2 text-third group-hover:text-primary transition-colors cursor-pointer">
           {{ $blog->title }}
-
         </a>
-        <p class="text-gray-600 mb-4 flex-1">{!! $blog->content !!}</p>
+        <p class="text-gray-600 flex-1">{{ $blog->excerpt}}</p>
         <div class="flex items-center justify-between mt-5">
           <div class="flex items-center gap-2">
-            <img src="{{asset('storage/' . $blog->author->profile_photo)}}" class="w-8 h-8 rounded-full" alt="author">
+            <img src="{{ $blog->author->profile_photo_url }}" alt="{{ $blog->author->name }}"
+              class="w-14 h-14 rounded-full border-2 border-primary">
             <span class="text-sm text-gray-500">{{ $blog->author->name }}</span>
           </div>
           <span class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($blog->published_at)->translatedFormat('d F Y') }}</span>

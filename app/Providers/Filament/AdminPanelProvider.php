@@ -37,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->breadcrumbs(false)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Primary,
             ])
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

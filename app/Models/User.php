@@ -52,6 +52,12 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return $this->profile_photo ? asset('storage/' . $this->profile_photo) : null;
     }
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->profile_photo
+            ? asset('storage/' . $this->profile_photo)
+            : asset('assets/images/avatar.png');
+    }
 
     /**
      * Get the attributes that should be cast.

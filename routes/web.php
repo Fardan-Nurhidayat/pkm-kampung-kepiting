@@ -24,7 +24,7 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 */
 
 Route::view('/', 'welcome')->name('home');
-Route::view('/products', 'products')->name('products');
+Route::view('/products', 'products.index')->name('products');
 Route::resource('blogs', BlogsController::class)->only(['index', 'show']);
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)

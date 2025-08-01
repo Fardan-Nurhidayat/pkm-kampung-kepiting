@@ -11,6 +11,7 @@ class Blogs extends Model
         'title',
         'category',
         'slug',
+        'excerpt', 
         'content',
         'image',
         'author_id',

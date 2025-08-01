@@ -9,12 +9,14 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Cache;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
-use App\Filament\Resources\BlogsResource\Pages;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
+use App\Filament\Resources\BlogsResource\Pages;
+use Filament\Forms\Get;
 
 class BlogsResource extends Resource
 {
@@ -49,8 +51,12 @@ class BlogsResource extends Resource
                 Hidden::make('slug')
                     ->required()
                     ->label('Slug'),
+
                 RichEditor::make('content')
                     ->toolbarButtons([
+                        'h1',
+                        'h2',
+                        'strike',
                         'bold',
                         'italic',
                         'link',
@@ -62,7 +68,12 @@ class BlogsResource extends Resource
                     ->required()
                     ->minLength(10)
                     ->maxLength(65535)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->afterStateUpdated(function (Set $set, $state) {
+                        $set('excerpt', Str::limit(strip_tags($state), 150, '...'));
+                    }),
+                Hidden::make('excerpt')
+                    ->label('Excerpt (Opsional)'),
                 FileUpload::make('image')
                     ->label('Gambar')
                     ->image()
@@ -82,7 +93,7 @@ class BlogsResource extends Resource
                 Hidden::make('published_at')
                     ->label('Tanggal Terbit')
                     ->required()
-                    ->default(now()),
+                    ->default(now('Asia/Jakarta')),
             ]);
     }
 
@@ -112,8 +123,12 @@ class BlogsResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->after(function () {
+                    Cache::forget('blogs');
+                }),
+                Tables\Actions\DeleteAction::make()->after(function () {
+                    Cache::forget('blogs');
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
