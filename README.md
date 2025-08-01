@@ -146,6 +146,13 @@ project-name/
 └── ...
 ```
 
+## 🎨 Base Color
+- Primary Color : #D94336
+- Secondary Color : ##FDF8F0
+- Third Color : #3A5A40
+- Text Color : #333333
+- Background Primary : ##EDEFEF 
+
 ## 🔧 Konfigurasi
 
 ### Filament
