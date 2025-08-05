@@ -41,11 +41,10 @@ class BlogsResource extends Resource
                 Select::make('category')
                     ->label('Kategori')
                     ->options([
-                        'makanan' => 'Makanan',
-                        'snack' => 'Snack',
-                        'souvenir' => 'Souvenir',
-                        'baju' => 'Baju',
-                        'minuman' => 'Minuman',
+                        'kegiatan' => 'Kegiatan',
+                        'tips' => 'Tips',
+                        'wisata' => 'Wisata',
+                        'resep' => 'Resep',
                     ])
                     ->required(),
                 Hidden::make('slug')

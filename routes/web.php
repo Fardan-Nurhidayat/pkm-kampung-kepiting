@@ -12,6 +12,7 @@ use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Livewire\Blogs;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,8 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 
 Route::view('/', 'welcome')->name('home');
 Route::view('/products', 'products.index')->name('products');
-Route::resource('blogs', BlogsController::class)->only(['index', 'show']);
+Route::resource('blogs', BlogsController::class)->only(['show']);
+Route::get('blogs', Blogs::class)->name('blogs.index');
 Route::post('/blogs/{blog}/like', [BlogLikeController::class, 'toggle'])->name('blogs.like');
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)

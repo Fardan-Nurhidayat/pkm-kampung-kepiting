@@ -1,5 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-
+const colors = require("tailwindcss/colors");
 module.exports = {
     theme: {
         extend: {
@@ -13,6 +13,10 @@ module.exports = {
                 third: "#3A5A40",
                 text: "#333333",
                 primaryBg: "#EDEFEF",
+                positive: colors.emerald,
+                negative: colors.red,
+                warning: colors.amber,
+                info: colors.blue,
             },
         },
     },
@@ -31,6 +35,10 @@ module.exports = {
         "./resources/**/*.php",
         "./resources/**/*.vue",
         "./resources/**/*.twig",
+        "./vendor/wireui/wireui/src/*.php",
+        "./vendor/wireui/wireui/ts/**/*.ts",
+        "./vendor/wireui/wireui/src/WireUi/**/*.php",
+        "./vendor/wireui/wireui/src/Components/**/*.php",
     ],
     plugins: [
         require("@tailwindcss/forms"),

@@ -13,13 +13,7 @@ class BlogsController extends Controller
      */
     public function index()
     {
-        $blogs = Cache::remember('blogs', 600, function () {
-            return Blogs::with('author')->latest()->get();
-        });
-
-        return view('blogs.index', [
-            'blogs' => $blogs,
-        ]);
+        //
     }
 
     /**

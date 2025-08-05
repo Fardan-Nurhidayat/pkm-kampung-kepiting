@@ -43,4 +43,11 @@ class Blogs extends Model
     {
         return $this->likes()->count();
     }
+
+    public function getExcerptTextAttribute()
+    {
+        return strip_tags($this->excerpt);
+    }
+
+    
 }
