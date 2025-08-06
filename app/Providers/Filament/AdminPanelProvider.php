@@ -36,9 +36,20 @@ class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->breadcrumbs(false)
             ->colors([
-                'primary' => Color::Primary,
+                'primary' => [
+                    50 => '252, 237, 236',   // Very light
+                    100 => '249, 219, 217',  // Light
+                    200 => '243, 183, 179',  // Light medium
+                    300 => '237, 147, 141',  // Medium light
+                    400 => '227, 107, 98',   // Medium
+                    500 => '217, 67, 54',    // Base color
+                    600 => '195, 60, 49',    // Medium dark
+                    700 => '163, 50, 41',    // Dark
+                    800 => '130, 40, 33',    // Darker
+                    900 => '106, 33, 26',    // Very dark
+                    950 => '65, 20, 16',     // Darkest
+                ],
             ])
-
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
