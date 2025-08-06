@@ -21,6 +21,7 @@ use Filament\Forms\Get;
 class BlogsResource extends Resource
 {
     protected static ?string $model = Blogs::class;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
