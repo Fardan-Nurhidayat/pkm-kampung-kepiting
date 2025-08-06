@@ -72,4 +72,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
             'password' => 'hashed',
         ];
     }
+
+    public function product_likes()
+    {
+        return $this->hasMany(ProductLike::class);
+    }
+
+    public function product_ratings()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
 }

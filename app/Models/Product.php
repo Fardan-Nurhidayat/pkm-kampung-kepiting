@@ -14,6 +14,9 @@ class Product extends Model
         'name',
         'slug',
         'description',
+        'category',
+        'image',
+        'excerpt',
         'price',
         'stock',
     ];
@@ -35,4 +38,40 @@ class Product extends Model
             }
         });
     }
+
+    public function product_likes()
+    {
+        return $this->hasMany(ProductLike::class);
+    }
+
+    public function product_ratings()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+
+    public function averageProductRating()
+    {
+        return $this->product_ratings()->avg('rating');
+    }
+
+    public function ProductisLikedBy($userId)
+    {
+        return $this->product_likes()->where('user_id', $userId)->exists();
+    }
+
+    public function isLikedByUser($userId = null)
+    {
+        if (!$userId) {
+            $userId = auth()->id();
+        }
+
+        return $this->product_likes()->where('user_id', $userId)->exists();
+    }
+
+
+    public function getLikesCountAttribute()
+    {
+        return $this->product_likes()->count();
+    }
+
 }
