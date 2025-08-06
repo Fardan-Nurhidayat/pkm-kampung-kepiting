@@ -64,7 +64,6 @@ class AdminPanelProvider extends PanelProvider
             ->middleware([
                 'web',
                 EnsureUserIsAdmin::class,
-                TrustProxies::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
