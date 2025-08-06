@@ -7,6 +7,7 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -63,6 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ->middleware([
                 'web',
                 EnsureUserIsAdmin::class,
+                TrustProxies::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
