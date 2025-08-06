@@ -6,8 +6,10 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -33,12 +35,23 @@ class ProductResource extends Resource
                 ->label('Nama Produk')
                 ->required()
                 ->reactive()
-                ->columnSpanFull()
+                // ->columnSpanFull()
                 ->afterStateUpdated(fn (Set $set, $state) => $set('slug', Str::slug($state)))
                 ->maxLength(255),
 
-            Hidden::make('slug')
-                ->label('Slug'),
+                Select::make('category')
+                    ->label('Kategori')
+                    ->options([
+                        'makanan' => 'Makanan',
+                        'snack' => 'Snack',
+                        'souvenir' => 'Souvenir',
+                        'baju' => 'Baju',
+                        'minuman' => 'Minuman',
+                    ])
+                    ->required(),
+
+                Hidden::make('slug')
+                    ->label('Slug'),
 
                 RichEditor::make('description')
                     ->toolbarButtons([
@@ -60,12 +73,24 @@ class ProductResource extends Resource
                     ->afterStateUpdated(function (Set $set, $state) {
                         $set('excerpt', Str::limit(strip_tags($state), 150, '...'));
                     }),
-                    TextInput::make('price')
+
+                Hidden::make('excerpt')
+                    ->label('Excerpt (Opsional)'),
+                    
+                FileUpload::make('image')
+                    ->label('Gambar')
+                    ->image()
+                    ->required()
+                    ->maxSize(2048) // 2MB
+                    ->disk('public')
+                    ->columnSpanFull()
+                    ->directory('products/images'),
+                TextInput::make('price')
                     ->label('Harga')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
-                    TextInput::make('stock')
+                TextInput::make('stock')
                     ->label('Stok')
                     ->required()
                     ->numeric()
