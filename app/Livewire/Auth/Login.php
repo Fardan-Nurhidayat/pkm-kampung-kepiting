@@ -37,7 +37,8 @@ class Login extends Component
             $this->addError('email', trans('auth.failed'));
             return;
         }
-        $roles = auth()->user()->getRoleNames();
+        $roles = Auth::user()->getRoleNames()->first();
+
         if($roles == 'user'){
             return redirect()->route('home');
         }else {
