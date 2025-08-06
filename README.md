@@ -241,6 +241,24 @@ php artisan optimize:clear
 php artisan test
 ```
 
+## 🛡 Shield Install 
+Shield Intsall 
+```bash
+php artisan shield:install
+```
+
+Atau 
+
+```bash
+php artisan shield:generate --all--ignore-existing-policies
+```
+
+```bash 
+php artisan shield:super-admin --user=1
+```
+
+
+
 ## 📦 Package Utama
 
 -   `laravel/framework` - Laravel framework

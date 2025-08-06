@@ -23,17 +23,25 @@ class Login extends Component
 
     public function authenticate()
     {
-        $this->validate();
-
+        $this->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'remember' => 'boolean',
+        ] , [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'remember.boolean' => 'Pilihan ingat saya tidak valid.',
+        ]);
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             $this->addError('email', trans('auth.failed'));
-
             return;
         }
-        if (Auth::user()->role == 'admin') {
-            return redirect('/admin');
-        } elseif (Auth::user()->role == 'user') {
+        $roles = auth()->user()->getRoleNames();
+        if($roles == 'user'){
             return redirect()->route('home');
+        }else {
+            return redirect('/admin');
         }
     }
 
