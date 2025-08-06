@@ -146,6 +146,13 @@ project-name/
 └── ...
 ```
 
+## 🎨 Base Color
+- Primary Color : #D94336
+- Secondary Color : ##FDF8F0
+- Third Color : #3A5A40
+- Text Color : #333333
+- Background Primary : ##EDEFEF 
+
 ## 🔧 Konfigurasi
 
 ### Filament
@@ -233,6 +240,24 @@ php artisan optimize:clear
 # Run tests
 php artisan test
 ```
+
+## 🛡 Shield Install 
+Shield Intsall 
+```bash
+php artisan shield:install
+```
+
+Atau 
+
+```bash
+php artisan shield:generate --all--ignore-existing-policies
+```
+
+```bash 
+php artisan shield:super-admin --user=1
+```
+
+
 
 ## 📦 Package Utama
 

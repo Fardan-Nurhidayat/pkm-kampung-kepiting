@@ -1,15 +1,19 @@
 <?php
 
-use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Http\Controllers\Auth\LogoutController;
+use App\Livewire\Blogs;
 use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Passwords\Confirm;
+use App\Livewire\ErrorAlert;
+use App\Livewire\Auth\Verify;
+use App\Livewire\Auth\Register;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Passwords\Email;
 use App\Livewire\Auth\Passwords\Reset;
-use App\Livewire\Auth\Register;
-use App\Livewire\Auth\Verify;
-use App\Livewire\ErrorAlert;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Auth\Passwords\Confirm;
+use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\BlogLikeController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +27,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome')->name('home');
+Route::view('/products', 'products.index')->name('products');
+Route::resource('blogs', BlogsController::class)->only(['show']);
+Route::get('blogs', Blogs::class)->name('blogs.index');
+Route::post('/blogs/{blog}/like', [BlogLikeController::class, 'toggle'])->name('blogs.like');
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)
         ->name('login');
