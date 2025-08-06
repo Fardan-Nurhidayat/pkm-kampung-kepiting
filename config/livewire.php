@@ -2,8 +2,8 @@
 
 return [
 
-    // asset url and app url 
-    'asset_url' => env('ASSET_URL', null),
+
+    // app url 
     'app_url' => env('APP_URL', null),
 
     /*
