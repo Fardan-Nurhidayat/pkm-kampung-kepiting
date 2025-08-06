@@ -1,9 +1,11 @@
 <?php
 
+use App\Livewire\Blogs;
 use App\Livewire\Auth\Login;
 use App\Livewire\ErrorAlert;
 use App\Livewire\Auth\Verify;
 use App\Livewire\Auth\Register;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Passwords\Email;
 use App\Livewire\Auth\Passwords\Reset;
@@ -12,7 +14,6 @@ use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Livewire\Blogs;
 
 /*
 |--------------------------------------------------------------------------

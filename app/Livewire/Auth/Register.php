@@ -29,6 +29,14 @@ class Register extends Component
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8', 'same:passwordConfirmation'],
+        ] , [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+            'password.same' => 'Kata sandi dan konfirmasi kata sandi harus sama.',
         ]);
 
         $user = User::create([
@@ -36,6 +44,7 @@ class Register extends Component
             'name' => $this->name,
             'password' => Hash::make($this->password),
         ]);
+        $user->assignRole('user'); // Assign default role
 
         event(new Registered($user));
 

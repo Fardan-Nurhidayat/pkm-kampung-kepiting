@@ -31,7 +31,6 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(null)
             ->profile(isSimple: false)
-            ->authGuard('web')
             ->sidebarCollapsibleOnDesktop()
             ->collapsedSidebarWidth('66rem')
             ->topNavigation()
@@ -63,8 +62,8 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
     }
 }

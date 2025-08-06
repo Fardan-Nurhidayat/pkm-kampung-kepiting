@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsAdmin
@@ -15,7 +16,12 @@ class EnsureUserIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'penjual'])) {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $roles = Auth::user()->getRoleNames()->first();
+
+        if ($roles == "user") {
             abort(403); // Forbidden
         }
         return $next($request);

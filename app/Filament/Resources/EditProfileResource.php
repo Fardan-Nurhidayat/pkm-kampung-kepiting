@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EditProfileResource\Pages;
 use App\Filament\Resources\EditProfileResource\RelationManagers;
+use Filament\Forms\Components\Select;
 
 class EditProfileResource extends Resource
 {
@@ -38,6 +39,18 @@ class EditProfileResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
+                TextInput::make('password')
+                    ->label('Kata Sandi')
+                    ->password()
+                    ->required()
+                    ->minLength(8)
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn ($state) => bcrypt($state))
+                    ->dehydrated(fn ($state) => ! empty($state)),
+                Select::make('role')
+                    ->relationship('roles', 'name')
+                    ->preload()
+                    ->required(),
                 FileUpload::make('profile_photo')
                     ->label('Foto Profil')
                     ->image()
