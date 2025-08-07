@@ -4,7 +4,7 @@
     {{-- Hero Section with Image --}}
     <section class="relative">
     <div class="h-96 md:h-[500px] overflow-hidden">
-        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+        <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/images/crab.jpg') }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
     </div>
 
@@ -162,15 +162,15 @@
     </div>
     </section>
 
-    {{-- Related Articles --}}
+    {{-- Related Products --}}
     <section class="bg-gray-50 py-16">
     <div class="max-w-6xl mx-auto px-4">
         <h3 class="text-3xl font-bold text-center text-third mb-12">Produk Lain</h3>
         @if($products->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        @foreach($product as $product)
+        @foreach($products as $product)
         <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-            <img src="{{ asset('storage/' . $product->image) }}" alt="Related Article" class="h-48 w-full object-cover">
+            <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/images/crab.jpg') }}" alt="Related Article" class="h-48 w-full object-cover">
             <div class="p-6">
             <span class="text-xs text-primary font-semibold">{{$product->category}}</span>
             <h4 class="font-bold text-lg mt-2 mb-3 text-third">{{$product->title}}</h4>

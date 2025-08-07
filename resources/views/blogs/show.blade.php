@@ -5,7 +5,7 @@
   {{-- Hero Section with Image --}}
   <section class="relative">
     <div class="h-96 md:h-[500px] overflow-hidden">
-      <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
+      <img src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('/assets/images/crab.jpg') }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
     </div>
 
@@ -51,31 +51,31 @@
       </div>
     </div>
 
-  <div class="mt-8 pt-6 border-t border-gray-200">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        @auth
-        <button onclick="toggleLike({{ $blog->id }})"
-          id="like-btn-{{ $blog->id }}"
-          class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          @auth
+          <button onclick="toggleLike({{ $blog->id }})"
+            id="like-btn-{{ $blog->id }}"
+            class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all
                                {{ $blog->isLikedByUser() ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-          <span id="like-text-{{ $blog->id }}">
-            {{ $blog->isLikedByUser() ? 'Liked' : 'Like' }}
-          </span>
-        </button>
-        @else
-        <a href="{{ route('login') }}"
-          class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-          Login to Like
-        </a>
-        @endauth
-      </div>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            <span id="like-text-{{ $blog->id }}">
+              {{ $blog->isLikedByUser() ? 'Liked' : 'Like' }}
+            </span>
+          </button>
+          @else
+          <a href="{{ route('login') }}"
+            class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            Login to Like
+          </a>
+          @endauth
+        </div>
 
         <div class="text-gray-600">
           <span id="likes-count-{{ $blog->id }}">{{ $blog->likes_count }}</span>
@@ -124,7 +124,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         @foreach($relatedBlogs as $relatedBlog)
         <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-          <img src="{{ asset('storage/' . $relatedBlog->image) }}" alt="Related Article" class="h-48 w-full object-cover">
+          <img src="{{ $relatedBlog->image ? asset('storage/' . $relatedBlog->image) : asset('assets/images/crab.jpg') }}" alt="Related Article" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs text-primary font-semibold">{{$relatedBlog->category}}</span>
             <h4 class="font-bold text-lg mt-2 mb-3 text-third">{{$relatedBlog->title}}</h4>
@@ -174,13 +174,13 @@
           const text = document.getElementById(`like-text-${blogId}`);
           const count = document.getElementById(`likes-count-${blogId}`);
 
-        if (data.liked) {
-          btn.className = 'flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-primary text-white transition-all';
-          text.textContent = 'Liked';
-        } else {
-          btn.className = 'flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all';
-          text.textContent = 'Like';
-        }
+          if (data.liked) {
+            btn.className = 'flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-primary text-white transition-all';
+            text.textContent = 'Liked';
+          } else {
+            btn.className = 'flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all';
+            text.textContent = 'Like';
+          }
 
           count.textContent = data.likes_count;
         })

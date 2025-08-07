@@ -125,24 +125,24 @@
 
         {{-- Loading State --}}
         <div wire:loading.delay wire:target="searchQuery,selectedCategory,sortBy" class="w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            @for($i = 0; $i < 6; $i++) 
+            @for($i = 0; $i < 6; $i++)
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse mb-5">
-                    <div class="h-56 bg-gray-300"></div>
-                    <div class="p-6">
-                        <div class="h-4 bg-gray-300 rounded mb-4"></div>
-                        <div class="h-6 bg-gray-300 rounded mb-2"></div>
-                        <div class="h-4 bg-gray-300 rounded mb-4"></div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <div class="w-14 h-14 bg-gray-300 rounded-full"></div>
-                                <div class="h-4 bg-gray-300 rounded w-20"></div>
-                            </div>
-                            <div class="h-4 bg-gray-300 rounded w-16"></div>
+                <div class="h-56 bg-gray-300"></div>
+                <div class="p-6">
+                    <div class="h-4 bg-gray-300 rounded mb-4"></div>
+                    <div class="h-6 bg-gray-300 rounded mb-2"></div>
+                    <div class="h-4 bg-gray-300 rounded mb-4"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-14 h-14 bg-gray-300 rounded-full"></div>
+                            <div class="h-4 bg-gray-300 rounded w-20"></div>
                         </div>
+                        <div class="h-4 bg-gray-300 rounded w-16"></div>
                     </div>
                 </div>
-            @endfor
         </div>
+        @endfor
+</div>
 
 {{-- Blog Grid --}}
 <div wire:loading.remove wire:target="searchQuery,selectedCategory,sortBy"
@@ -151,7 +151,7 @@
     <div wire:key="{{$blog->id}}"
         class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition flex flex-col overflow-hidden group">
         <div class="relative">
-            <img src="{{asset('storage/' . $blog->image)}}"
+            <img src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('assets/images/crab.jpg') }}"
                 class="h-56 w-full object-cover group-hover:scale-105 transition-transform duration-300">
         </div>
         <div class="p-6 flex-1 flex flex-col">
