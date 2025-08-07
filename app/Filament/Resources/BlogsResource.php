@@ -77,7 +77,7 @@ class BlogsResource extends Resource
                 FileUpload::make('image')
                     ->label('Gambar')
                     ->image()
-                    ->required()
+                    ->visibility('public')
                     ->maxSize(2048) // 2MB
                     ->disk('public')
                     ->columnSpanFull()

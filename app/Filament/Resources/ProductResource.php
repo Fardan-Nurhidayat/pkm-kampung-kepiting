@@ -32,12 +32,12 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->label('Nama Produk')
-                ->required()
-                ->reactive()
-                // ->columnSpanFull()
-                ->afterStateUpdated(fn (Set $set, $state) => $set('slug', Str::slug($state)))
-                ->maxLength(255),
+                    ->label('Nama Produk')
+                    ->required()
+                    ->reactive()
+                    // ->columnSpanFull()
+                    ->afterStateUpdated(fn(Set $set, $state) => $set('slug', Str::slug($state)))
+                    ->maxLength(255),
 
                 Select::make('category')
                     ->label('Kategori')
@@ -76,11 +76,11 @@ class ProductResource extends Resource
 
                 Hidden::make('excerpt')
                     ->label('Excerpt (Opsional)'),
-                    
+
                 FileUpload::make('image')
                     ->label('Gambar')
                     ->image()
-                    ->required()
+                    ->visibility('public')
                     ->maxSize(2048) // 2MB
                     ->disk('public')
                     ->columnSpanFull()
@@ -108,7 +108,7 @@ class ProductResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.'))
+                    ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()

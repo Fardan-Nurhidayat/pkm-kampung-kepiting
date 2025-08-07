@@ -19,7 +19,7 @@ class Show extends Component
     public $review;
 
     public function mount($slug)
-    {        
+    {
         $this->product = Product::where('slug', $slug)
             ->with(['product_likes', 'product_ratings.user'])
             ->firstOrFail();
@@ -29,7 +29,7 @@ class Show extends Component
             ->where('id', '!=', $this->product->id)
             ->get();
 
-            // dd($this->products);
+        // dd($this->products);
 
         if (Auth::user()) {
             $this->userHasLiked = $this->product->product_likes->where('user_id', Auth::user()->id)->count() > 0;
@@ -96,5 +96,3 @@ class Show extends Component
         return view('livewire.products.show');
     }
 }
-
-?>
