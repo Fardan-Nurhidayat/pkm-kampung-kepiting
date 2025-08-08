@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+    <link rel="shortcut icon" href="{{ url(asset('assets/images/favicon.png')) }}">
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <title>{{ "PKM PNC | " .  $title ?? 'Page Title' }}</title>

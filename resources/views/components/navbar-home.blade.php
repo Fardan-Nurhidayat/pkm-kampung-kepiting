@@ -1,7 +1,7 @@
 <nav class="w-full bg-white shadow fixed top-0 left-0 z-50">
   <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
     <div class="font-bold text-xl text-red-600 flex items-center gap-2">
-      <span class="text-2xl">🦀</span> Kampung Kepiting Kutawaru
+      <span class="text-2xl">🦀</span> Kampoeng Kepiting Kutawaru
     </div>
 
     <div class="flex items-center space-x-8">

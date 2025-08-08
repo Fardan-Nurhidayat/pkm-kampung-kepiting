@@ -12,19 +12,20 @@
   @endif
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+  <link rel="shortcut icon" href="{{ url(asset('assets/images/favicon.png')) }}">
 
   <!-- Fonts -->
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
   {{-- @livewireScripts --}}
-  
+
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @livewireStyles
 </head>
 <x-navbar-home />
+
 <body>
   {{-- @yield('content') --}}
   {{ $slot }}
