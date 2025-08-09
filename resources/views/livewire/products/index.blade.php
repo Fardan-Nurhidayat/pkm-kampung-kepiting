@@ -103,6 +103,7 @@
                 </div>
                 <div class="p-5 flex-1 flex flex-col">
                     <h2 class="font-bold text-xl mb-2 text-third">{{ $product->name }}</h2>
+                    <span class="text-xs text-gray-500 mb-2 block">Penjual: {{ $product->user->name }}</span>
                     <span class="bg-primary text-white w-fit px-3 py-1 rounded-full text-xs mb-2 inline-block">
                         {{ $product->category }}
                     </span>

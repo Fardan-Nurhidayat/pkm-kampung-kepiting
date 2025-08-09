@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('excerpt')->nullable();
             $table->decimal('price', 10, 2); // Harga produk
             $table->integer('stock')->default(0); // Stok produk
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // ID pengguna yang membuat produk
             $table->timestamps();
         });
     }

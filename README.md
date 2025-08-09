@@ -250,7 +250,7 @@ php artisan shield:install
 Atau 
 
 ```bash
-php artisan shield:generate --all--ignore-existing-policies
+php artisan shield:generate --all --ignore-existing-policies
 ```
 
 ```bash 

@@ -19,6 +19,7 @@ class Product extends Model
         'excerpt',
         'price',
         'stock',
+        'user_id',
     ];
 
     protected $casts = [
@@ -77,6 +78,11 @@ class Product extends Model
     public function getLikesCountAttribute()
     {
         return $this->product_likes()->count();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'user_id');
     }
 
 }

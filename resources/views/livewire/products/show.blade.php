@@ -42,6 +42,11 @@
                 {{-- Nama Produk --}}
                 <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $product->name }}</h1>
 
+                {{-- Nama Penjual --}}
+                <div class="mb-2 text-gray-600 text-sm">
+                    Penjual: <span class="font-semibold">{{ $product->user->name }}</span>
+                </div>
+
                 {{-- Tombol Like --}}
                 <div class="flex items-center gap-4 mb-4">
                     @auth
@@ -177,6 +182,37 @@
                 </div>
             @endif
         </div>
+
+        {{-- Related Products --}}
+        <section class="bg-gray-50 py-16 mt-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <h3 class="text-3xl font-bold text-center text-third mb-12">Produk Terkait</h3>
+                @if(isset($relatedProducts) && $relatedProducts->count() > 0)
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        @foreach($relatedProducts as $related)
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+                            <img src="{{ $related->images && count($related->images) > 0 ? asset('storage/' . $related->images[0]) : asset('assets/images/crab.jpg') }}" alt="Related Product" class="h-48 w-full object-cover">
+                            <div class="p-6">
+                                <span class="text-xs text-primary font-semibold">{{ $related->category }}</span>
+                                <h4 class="font-bold text-lg mt-2 mb-3 text-third">{{ $related->name }}</h4>
+                                <p class="text-gray-600 text-sm mb-4">{{ Str::limit(strip_tags($related->description), 100, '...') }}</p>
+                                <a href="{{ route('products.show', $related->slug) }}"
+                                    class="text-primary font-semibold hover:text-primaryLight transition">Lihat Produk →</a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-16">
+                        <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-3-3v6m-6-9h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada produk terkait ditemukan</h3>
+                        <p class="text-gray-500">Belum ada produk lain yang relevan.</p>
+                    </div>
+                @endif
+            </div>
+        </section>
 
         {{-- Alpine.js Images Array --}}
         <script>
@@ -348,37 +384,6 @@
                 WhatsApp
             </a>
             </div>
-        </div>
-    </section> --}}
-
-    {{-- Related Products --}}
-    {{-- <section class="bg-gray-50 py-16">
-        <div class="max-w-6xl mx-auto px-4">
-            <h3 class="text-3xl font-bold text-center text-third mb-12">Produk Lain</h3>
-            @if($products->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @foreach($products as $product)
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-                <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/images/crab.jpg') }}" alt="Related Article" class="h-48 w-full object-cover">
-                <div class="p-6">
-                <span class="text-xs text-primary font-semibold">{{$product->category}}</span>
-                <h4 class="font-bold text-lg mt-2 mb-3 text-third">{{$product->title}}</h4>
-                <p class="text-gray-600 text-sm mb-4">{{ Str::limit(strip_tags($product->content), 100, '...') }}</p>
-                <a href="{{route('products.show', $product->slug)}}"
-                    class="text-primary font-semibold hover:text-primaryLight transition">Baca Selengkapnya →</a>
-                </div>
-            </div>
-            @endforeach
-            </div>
-            @else
-            <div class="text-center py-16">
-            <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-3-3v6m-6-9h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2z" />
-            </svg>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada produk lain ditemukan</h3>
-            <p class="text-gray-500">Belum ada produk lain dalam kategori yang sama.</p>
-            </div>
-            @endif
         </div>
     </section> --}}
 

@@ -87,7 +87,7 @@ class BlogsResource extends Resource
                     ->label('Penulis')
                     ->relationship(name: 'author', titleAttribute: 'name' , modifyQueryUsing: function (Builder $query) {
                         $query->whereHas('roles', function (Builder $query) {
-                            $query->whereIn('name', ['superadmin', 'admin', 'penjual']);
+                            $query->whereIn('name', ['super_admin', 'admin', 'penjual']);
                         });
                     })
                     ->required()

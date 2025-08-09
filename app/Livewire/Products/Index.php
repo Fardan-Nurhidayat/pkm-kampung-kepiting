@@ -17,7 +17,7 @@ class Index extends Component
     public $sortFilter = '';
 
     public $products;
-
+    
     public function mount()
     {
         // Kosongkan, kita akan handle query di render()

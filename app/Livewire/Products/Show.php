@@ -14,6 +14,7 @@ class Show extends Component
 {
     public Product $product;
     public $products;
+    public $relatedProducts;
     public bool $userHasLiked;
     public $userRating;
     public $review;
@@ -23,13 +24,19 @@ class Show extends Component
     public $emptyStars;
     public $avgRating;
 
+    
     public function mount($slug)
     {   
 
         $this->product = Product::where('slug', $slug)
             ->with(['product_likes', 'product_ratings.user'])
             ->firstOrFail();
-
+        $this->relatedProducts = Product::where('category', $this->product->category)
+            ->where('id', '!=', $this->product->id)
+            ->with(['product_likes', 'product_ratings'])
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
         $this->avgRating = $this->product->product_ratings->avg('rating');
         $this->fullStars = floor($this->avgRating);
         $this->halfStar = $this->avgRating - $this->fullStars >= 0.5;
@@ -40,7 +47,7 @@ class Show extends Component
             ->where('id', '!=', $this->product->id)
             ->get();
 
-            // dd($this->products);
+
 
         if (Auth::user()) {
             $this->userHasLiked = $this->product->product_likes->where('user_id', Auth::user()->id)->count() > 0;
@@ -53,9 +60,9 @@ class Show extends Component
         }
     }
 
+
     public function toggleLike()
     {
-        // dd('toggleLike called');
         if (!Auth::check()) return;
 
         $like = ProductLike::where('product_id', $this->product->id)

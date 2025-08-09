@@ -32,13 +32,13 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->label('Nama Produk')
-                ->required()
-                ->reactive()
-                ->debounce(500)
-                ->live(onBlur: true)
-                ->afterStateUpdated(fn (Set $set, $state) => $set('slug', Str::slug($state)))
-                ->maxLength(255),
+                    ->label('Nama Produk')
+                    ->required()
+                    ->reactive()
+                    ->debounce(500)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(Set $set, $state) => $set('slug', Str::slug($state)))
+                    ->maxLength(255),
 
                 Select::make('category')
                     ->label('Kategori')
@@ -77,7 +77,7 @@ class ProductResource extends Resource
 
                 Hidden::make('excerpt')
                     ->label('Excerpt (Opsional)'),
-                    
+
                 FileUpload::make('images')
                     ->label('Gambar')
                     ->image()
@@ -97,12 +97,25 @@ class ProductResource extends Resource
                     ->required()
                     ->numeric()
                     ->default(0),
+                Select::make('user_id')
+                    ->label('Penjual')
+                    ->relationship('user', 'name')
+                    ->columnSpanFull()
+                    ->searchable()
+                    ->required()
+                    ->default(auth()->id()),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query){
+                // dd(auth()->user()->hasRole('admin'), auth()->user()->hasRole('super_admin'));
+                if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('super_admin')) {
+                    $query->where('user_id', auth()->id());
+                }
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -110,11 +123,19 @@ class ProductResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.'))
+                    ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Kategori')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Penjual')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
