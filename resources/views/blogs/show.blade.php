@@ -5,7 +5,7 @@
   {{-- Hero Section with Image --}}
   <section class="relative">
     <div class="h-96 md:h-[500px] overflow-hidden">
-      <img src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('/assets/images/crab.jpg') }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
+      <img src="{{ !empty($blog->image) && is_array($blog->image) ? asset('storage/' . $blog->image[0]) : asset('assets/images/crab.jpg') }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
     </div>
 
@@ -50,7 +50,19 @@
         {!! $blog->content !!}
       </div>
     </div>
-
+    {{-- Galeri Gambar Blog --}}
+    @if(is_array($blog->image) && count($blog->image) > 1)
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <h3 class="text-xl font-semibold text-third mb-4">Gambar Lainnya</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        @foreach(array_slice($blog->image, 1) as $img)
+        <a href="{{ asset('storage/' . $img) }}" target="_blank">
+          <img src="{{ asset('storage/' . $img) }}" alt="Gambar Blog" class="w-full h-40 object-cover rounded-lg shadow hover:scale-105 transition-transform duration-200">
+        </a>
+        @endforeach
+      </div>
+    </div>
+    @endif
     <div class="mt-8 pt-6 border-t border-gray-200">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
@@ -83,6 +95,7 @@
         </div>
       </div>
     </div>
+
     {{-- Share Section --}}
     <div class="mt-12 pt-8 border-t border-gray-200">
       <h3 class="text-xl font-semibold text-third mb-4">Bagikan Artikel Ini</h3>
@@ -123,8 +136,13 @@
       @if($relatedBlogs->count() > 0)
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         @foreach($relatedBlogs as $relatedBlog)
+        @php
+        $relatedImage = (is_array($relatedBlog->image) && count($relatedBlog->image) > 0)
+        ? asset('storage/' . $relatedBlog->image[0])
+        : asset('assets/images/crab.jpg');
+        @endphp
         <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-          <img src="{{ $relatedBlog->image ? asset('storage/' . $relatedBlog->image) : asset('assets/images/crab.jpg') }}" alt="Related Article" class="h-48 w-full object-cover">
+          <img src="{{ $relatedImage }}" alt="Related Article" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs text-primary font-semibold">{{$relatedBlog->category}}</span>
             <h4 class="font-bold text-lg mt-2 mb-3 text-third">{{$relatedBlog->title}}</h4>

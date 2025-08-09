@@ -24,26 +24,28 @@
         </button>
 
         <!-- Dropdown Modal -->
-        <div x-show="open" 
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-10">
+        <div x-show="open"
+          x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 scale-95"
+          x-transition:enter-end="opacity-100 scale-100"
+          x-transition:leave="transition ease-in duration-150"
+          x-transition:leave-start="opacity-100 scale-100"
+          x-transition:leave-end="opacity-0 scale-95"
+          class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-10">
           <div class="py-2">
             <div class="px-4 py-2 text-sm text-gray-500 border-b">
               Masuk sebagai <strong>{{ auth()->user()->name }}</strong>
             </div>
-            <!-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
+            @if(auth()->user()->getRoleNames() != 'user')
+            <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
               <div class="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275Z" />
                 </svg>
-                Profile
+                Admin Dashboard
               </div>
-            </a> -->
+            </a>
+            @endif
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">

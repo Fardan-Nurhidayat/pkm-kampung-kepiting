@@ -16,7 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use App\Filament\Resources\BlogsResource\Pages;
-use Filament\Forms\Get;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogsResource extends Resource
 {
@@ -51,7 +51,6 @@ class BlogsResource extends Resource
                 Hidden::make('slug')
                     ->required()
                     ->label('Slug'),
-
                 RichEditor::make('content')
                     ->toolbarButtons([
                         'h1',
@@ -76,6 +75,8 @@ class BlogsResource extends Resource
                     ->label('Excerpt (Opsional)'),
                 FileUpload::make('image')
                     ->label('Gambar')
+                    ->multiple()
+                    ->maxParallelUploads(1)
                     ->image()
                     ->required()
                     ->maxSize(2048) // 2MB
@@ -84,7 +85,11 @@ class BlogsResource extends Resource
                     ->directory('blogs/images'),
                 Select::make('author_id')
                     ->label('Penulis')
-                    ->relationship('author', 'name')
+                    ->relationship(name: 'author', titleAttribute: 'name' , modifyQueryUsing: function (Builder $query) {
+                        $query->whereHas('roles', function (Builder $query) {
+                            $query->whereIn('name', ['superadmin', 'admin', 'penjual']);
+                        });
+                    })
                     ->required()
                     ->searchable()
                     ->preload()
@@ -123,11 +128,13 @@ class BlogsResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->after(function () {
+                Tables\Actions\EditAction::make()->after(function ($record) {
                     Cache::forget('blogs');
+                    Cache::forget("blog_{$record->slug}");
                 }),
-                Tables\Actions\DeleteAction::make()->after(function () {
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
                     Cache::forget('blogs');
+                    Cache::forget("blog_{$record->slug}");
                 }),
             ])
             ->bulkActions([

@@ -17,6 +17,11 @@ class Blogs extends Model
         'author_id',
         'published_at',
     ];
+
+    protected $casts = [
+        'image' => 'array',
+    ];
+
     protected $appends = ['likes_count', 'excerpt_text'];
 
     public function author()

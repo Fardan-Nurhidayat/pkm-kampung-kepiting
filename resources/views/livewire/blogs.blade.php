@@ -151,7 +151,7 @@
     <div wire:key="{{$blog->id}}"
         class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition flex flex-col overflow-hidden group">
         <div class="relative">
-            <img src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('assets/images/crab.jpg') }}"
+            <img src="{{ !empty($blog->image) && is_array($blog->image) ? asset('storage/' . $blog->image[0]) : asset('assets/images/crab.jpg') }}"
                 class="h-56 w-full object-cover group-hover:scale-105 transition-transform duration-300">
         </div>
         <div class="p-6 flex-1 flex flex-col">
