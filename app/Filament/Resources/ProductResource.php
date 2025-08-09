@@ -35,7 +35,8 @@ class ProductResource extends Resource
                 ->label('Nama Produk')
                 ->required()
                 ->reactive()
-                // ->columnSpanFull()
+                ->debounce(500)
+                ->live(onBlur: true)
                 ->afterStateUpdated(fn (Set $set, $state) => $set('slug', Str::slug($state)))
                 ->maxLength(255),
 
