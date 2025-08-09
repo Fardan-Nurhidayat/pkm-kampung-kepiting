@@ -4,28 +4,56 @@ namespace App\Livewire\Products;
 
 use App\Models\Product;
 use App\Models\ProductLike;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;;
 
-#[Layout('components.guest')]
+use Livewire\Component;
+use Livewire\Attributes\Title;
+use WireUi\Traits\WireUiActions;
+use Livewire\WithPagination;
+
+#[Title('Produk Kami')]
 class Index extends Component
 {
+    use WireUiActions;
+
+    public $searchInput = '';
+    public $categoryFilter = '';
+    public $priceFilter = '';
+    public $sortFilter = '';
+
     public $products;
-    public $totalRatings;
-    public $hasLiked;
 
     public function mount()
     {
-        $this->products = Product::with(['product_likes', 'product_ratings'])
-            ->orderBy('created_at', 'desc')
-            ->get();            
+        // Kosongkan, kita akan handle query di render()
+        $this->products = collect();
+    }
+
+    public function orderProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $message = "Halo, saya ingin memesan produk: {$product->name}";
+        $waUrl = "https://wa.me/{$product->user->no_hp}?text=" . urlencode($message);
+        return redirect()->to($waUrl);
+    }
+
+    public function sendToWa() {}
+
+    public function updated($property)
+    {
+        // Saat filter berubah, render ulang otomatis
+        $this->render();
+    }
+
+    public function clearFilters()
+    {
+        $this->reset(['searchInput', 'categoryFilter', 'priceFilter', 'sortFilter']);
     }
 
     public function toggleLike($productId)
     {
         if (!Auth::check()) {
-            return; // Optional: bisa redirect atau emit event untuk trigger login modal
+            return;
         }
 
         $like = ProductLike::where('product_id', $productId)
@@ -40,16 +68,57 @@ class Index extends Component
                 'user_id' => Auth::id(),
             ]);
         }
-
-        // Refresh product data (reload relationships)
-        $this->products = Product::with(['product_likes', 'product_ratings'])
-            ->orderBy('created_at', 'desc')
-            ->get();
     }
 
     public function render()
     {
-        return view('livewire.products.index');
-            // ->title('Produk Kami');
+        $query = Product::with(['product_likes', 'product_ratings']);
+
+        // Filter Search
+        if (!empty($this->searchInput)) {
+            $query->where('name', 'like', '%' . $this->searchInput . '%');
+        }
+
+        // Filter Kategori
+        if (!empty($this->categoryFilter)) {
+            $query->where('category', $this->categoryFilter);
+        }
+
+        // Filter Harga
+        if (!empty($this->priceFilter)) {
+            [$min, $max] = explode('-', $this->priceFilter);
+            $query->whereBetween('price', [(float)$min, (float)$max]);
+        }
+
+        // Sort Produk
+        switch ($this->sortFilter) {
+            case 'name-asc':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'name-desc':
+                $query->orderBy('name', 'desc');
+                break;
+            case 'price-asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price-desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'rating-desc':
+                $query->withAvg('product_ratings', 'rating')
+                    ->orderBy('product_ratings_avg_rating', 'desc');
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+        }
+
+        $this->products = $query->get();
+
+        return view('livewire.products.index', [
+            'products' => $this->products
+        ]);
     }
 }

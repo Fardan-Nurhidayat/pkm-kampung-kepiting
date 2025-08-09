@@ -4,11 +4,11 @@
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-blue-100">
   <div class="bg-white shadow-xl rounded-2xl px-8 py-10 max-w-md w-full text-center animate__animated animate__fadeIn">
     <div class="flex justify-center mb-6">
-      <!-- SVG Ilustrasi Kunci -->
+      <!-- SVG Ilustrasi Larangan (Forbidden) -->
       <svg width="80" height="80" fill="none" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" fill="#F87171" />
-        <rect x="9" y="11" width="6" height="7" rx="3" fill="#fff" />
-        <rect x="11" y="7" width="2" height="6" rx="1" fill="#fff" />
+        <circle cx="12" cy="12" r="10" fill="#F87171"/>
+        <rect x="7" y="11" width="10" height="2" rx="1" fill="#fff" transform="rotate(-45 12 12)" />
+        <rect x="7" y="11" width="10" height="2" rx="1" fill="#fff" transform="rotate(45 12 12)" />
       </svg>
     </div>
     <h1 class="text-5xl font-extrabold text-red-500 mb-2 drop-shadow-lg">403</h1>

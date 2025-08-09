@@ -28,7 +28,7 @@ use App\Livewire\Products\Show as ProductShow;
 |
 */
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', \App\Livewire\Welcome::class)->name('home');
 // Route::view('/products', 'products.index')->name('products');
 Route::get('/products', ProductIndex::class)->name('products');
 Route::get('/produk/{slug}', ProductShow::class)->name('products.show');

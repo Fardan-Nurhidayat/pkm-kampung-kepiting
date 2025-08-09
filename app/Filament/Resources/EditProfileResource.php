@@ -21,7 +21,7 @@ use Filament\Forms\Components\Select;
 
 class EditProfileResource extends Resource
 {
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $model = User::class;
 
@@ -49,6 +49,11 @@ class EditProfileResource extends Resource
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn ($state) => bcrypt($state))
                     ->dehydrated(fn ($state) => ! empty($state)),
+                TextInput::make('no_hp')
+                    ->label('Nomor HP')
+                    ->tel()
+                    ->required()
+                    ->maxLength(15),
                 Select::make('role')
                     ->relationship('roles', 'name')
                     ->preload()

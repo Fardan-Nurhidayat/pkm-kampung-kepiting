@@ -35,7 +35,8 @@ class ProductResource extends Resource
                     ->label('Nama Produk')
                     ->required()
                     ->reactive()
-                    // ->columnSpanFull()
+                    ->debounce(500)
+                    ->live(onBlur: true)
                     ->afterStateUpdated(fn(Set $set, $state) => $set('slug', Str::slug($state)))
                     ->maxLength(255),
 
@@ -77,13 +78,14 @@ class ProductResource extends Resource
                 Hidden::make('excerpt')
                     ->label('Excerpt (Opsional)'),
 
-                FileUpload::make('image')
+                FileUpload::make('images')
                     ->label('Gambar')
                     ->image()
                     ->visibility('public')
                     ->maxSize(2048) // 2MB
                     ->disk('public')
                     ->columnSpanFull()
+                    ->multiple()
                     ->directory('products/images'),
                 TextInput::make('price')
                     ->label('Harga')
@@ -95,12 +97,25 @@ class ProductResource extends Resource
                     ->required()
                     ->numeric()
                     ->default(0),
+                Select::make('user_id')
+                    ->label('Penjual')
+                    ->relationship('user', 'name')
+                    ->columnSpanFull()
+                    ->searchable()
+                    ->required()
+                    ->default(auth()->id()),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query) {
+                // dd(auth()->user()->hasRole('admin'), auth()->user()->hasRole('super_admin'));
+                if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('super_admin')) {
+                    $query->where('user_id', auth()->id());
+                }
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -113,6 +128,14 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Kategori')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Penjual')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

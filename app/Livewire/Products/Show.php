@@ -7,29 +7,46 @@ use App\Models\Product;
 use App\Models\ProductLike;
 use App\Models\ProductRating;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
-#[Layout('components.guest')]
+#[Title('Detail Produk')]
 class Show extends Component
 {
     public Product $product;
     public $products;
+    public $relatedProducts;
     public bool $userHasLiked;
     public $userRating;
     public $review;
+
+    public $fullStars;
+    public $halfStar;
+    public $emptyStars;
+    public $avgRating;
+
 
     public function mount($slug)
     {
         $this->product = Product::where('slug', $slug)
             ->with(['product_likes', 'product_ratings.user'])
             ->firstOrFail();
+        $this->relatedProducts = Product::where('category', $this->product->category)
+            ->where('id', '!=', $this->product->id)
+            ->with(['product_likes', 'product_ratings'])
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
+        $this->avgRating = $this->product->product_ratings->avg('rating');
+        $this->fullStars = floor($this->avgRating);
+        $this->halfStar = $this->avgRating - $this->fullStars >= 0.5;
+        $this->emptyStars = 5 - $this->fullStars - ($this->halfStar ? 1 : 0);
 
         $this->products = Product::with(['product_likes', 'product_ratings'])
             ->orderBy('created_at', 'desc')
             ->where('id', '!=', $this->product->id)
             ->get();
 
-        // dd($this->products);
+
 
         if (Auth::user()) {
             $this->userHasLiked = $this->product->product_likes->where('user_id', Auth::user()->id)->count() > 0;
@@ -42,9 +59,9 @@ class Show extends Component
         }
     }
 
+
     public function toggleLike()
     {
-        // dd('toggleLike called');
         if (!Auth::check()) return;
 
         $like = ProductLike::where('product_id', $this->product->id)
@@ -85,6 +102,11 @@ class Show extends Component
             ['product_id' => $this->product->id, 'user_id' => Auth::user()->id],
             ['rating' => $this->userRating, 'review' => $this->review]
         );
+
+        $this->avgRating = $this->product->product_ratings->avg('rating');
+        $this->fullStars = floor($this->avgRating);
+        $this->halfStar = $this->avgRating - $this->fullStars >= 0.5;
+        $this->emptyStars = 5 - $this->fullStars - ($this->halfStar ? 1 : 0);
 
         session()->flash('message', 'Review berhasil disimpan!');
         $this->product->refresh();

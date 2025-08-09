@@ -37,7 +37,7 @@ class Blogs extends Component
             ->toArray();
     }
 
-    #[Computed]
+    #[Computed(true, 600, false , 'blogs')]
     public function blogs()
     {
         $query = BlogModel::with(['author', 'likes']);

@@ -15,11 +15,17 @@ class Product extends Model
         'slug',
         'description',
         'category',
-        'image',
+        'images', // ganti dari image ke images
         'excerpt',
         'price',
         'stock',
+        'user_id',
     ];
+
+    protected $casts = [
+        'images' => 'array', // supaya otomatis jadi array
+    ];
+
 
     /**
      * Boot method untuk generate slug otomatis saat membuat atau update product.
@@ -72,6 +78,11 @@ class Product extends Model
     public function getLikesCountAttribute()
     {
         return $this->product_likes()->count();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'user_id');
     }
 
 }
