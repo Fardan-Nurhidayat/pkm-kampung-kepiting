@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\ReviewResource\Pages;
 
-use App\Filament\Resources\ReviewResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Cache;
+use App\Filament\Resources\ReviewResource;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageReviews extends ManageRecords
@@ -13,7 +14,10 @@ class ManageReviews extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->after(function () {
+                // Clear the cache after creating a new Review
+                Cache::forget('reviews');
+            }),
         ];
     }
 }

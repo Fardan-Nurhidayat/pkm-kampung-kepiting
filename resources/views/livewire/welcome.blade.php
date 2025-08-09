@@ -128,35 +128,15 @@
       {{-- Menu Andalan --}}
       <h3 class="text-2xl font-semibold text-center mb-8">Menu Andalan Kami</h3>
       <div class="grid md:grid-cols-3 gap-8">
-        <div
-          class="bg-gray-50 rounded-xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition">
-          <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80"
-            alt="Menu 1" class="w-28 h-28 rounded-full object-cover mb-4 shadow">
-          <h4 class="font-bold text-xl mb-2">Nunc Viverra Imperdiet</h4>
-          <p class="text-gray-500 mb-2">Donec ac odio tempor orci dapibus ultrices in iaculis nunc. Mauris vitae
-            ultricies
-            leo integer malesuada.</p>
-          <span class="text-lg font-semibold text-red-500">Lorem Ipsum</span>
+        @foreach($bestProducts as $product)
+        <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
+          <img src="{{ asset('storage/' . $product->images[0]) }}" alt="{{ $product->name }}"
+            class="w-full h-48 object-cover rounded-lg mb-4">
+          <h4 class="text-xl font-semibold mb-2">{{ $product->name }}</h4>
+          <p class="text-gray-600 mb-4">{{ $product->excerpt }}</p>
+          <span class="text-lg font-bold text-primary">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
         </div>
-        <div
-          class="bg-gray-50 rounded-xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition">
-          <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80"
-            alt="Menu 2" class="w-28 h-28 rounded-full object-cover mb-4 shadow">
-          <h4 class="font-bold text-xl mb-2">Sed Cursus Turpis</h4>
-          <p class="text-gray-500 mb-2">Praesent ac massa at ligula laoreet iaculis. Fusce a quam. Etiam ut purus mattis
-            mauris.</p>
-          <span class="text-lg font-semibold text-red-500">Lorem Ipsum</span>
-        </div>
-        <div
-          class="bg-gray-50 rounded-xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition">
-          <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80"
-            alt="Menu 3" class="w-28 h-28 rounded-full object-cover mb-4 shadow">
-          <h4 class="font-bold text-xl mb-2">Pellentesque Egestas</h4>
-          <p class="text-gray-500 mb-2">Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec
-            odio
-            et ante.</p>
-          <span class="text-lg font-semibold text-red-500">Lorem Ipsum</span>
-        </div>
+        @endforeach
       </div>
     </div>
   </section>
@@ -166,23 +146,18 @@
     <div class="max-w-4xl mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-12">Kata Mereka</h2>
       <div class="grid md:grid-cols-2 gap-8">
+        @forelse($reviews as $review)
         <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Pelanggan 1"
+          <img src="{{ $review->photo ? asset('storage/' . $review->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($review->name) . '&background=random' }}"
+            alt="{{ $review->name }}"
             class="w-20 h-20 rounded-full object-cover mb-4 shadow">
-          <blockquote class="italic text-gray-600 mb-4">“Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Integer
-            posuere erat a ante. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.”</blockquote>
-          <div class="font-semibold text-gray-800">Nomen Nescio</div>
-          <div class="text-gray-400 text-sm">Aliquam Mollis</div>
+          <blockquote class="italic text-gray-600 mb-4">"{{ $review->review }}"</blockquote>
+          <div class="font-semibold text-gray-800">{{ $review->name }}</div>
+          <div class="text-gray-400 text-sm">{{ \Carbon\Carbon::parse($review->visit_date)->translatedFormat('d F Y') }}</div>
         </div>
-        <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Pelanggan 2"
-            class="w-20 h-20 rounded-full object-cover mb-4 shadow">
-          <blockquote class="italic text-gray-600 mb-4">“Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.”</blockquote>
-          <div class="font-semibold text-gray-800">Jane Doe</div>
-          <div class="text-gray-400 text-sm">Cras Ultricies</div>
-        </div>
+        @empty
+        <div class="col-span-2 text-center text-gray-400">Belum ada review dari pengunjung.</div>
+        @endforelse
       </div>
     </div>
   </section>

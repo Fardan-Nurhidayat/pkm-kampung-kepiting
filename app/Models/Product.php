@@ -85,4 +85,12 @@ class Product extends Model
         return $this->belongsTo(User::class , 'user_id');
     }
 
+    public static function bestProduct()
+    {
+        return self::withCount('product_likes')
+            ->orderBy('product_likes_count', 'desc')
+            ->take(6)
+            ->get();
+    }
+
 }

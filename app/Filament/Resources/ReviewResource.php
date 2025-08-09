@@ -24,10 +24,11 @@ class ReviewResource extends Resource
     {
         return $form
             ->schema([
-                Hidden::make('user_id')
-                    ->default(Auth::user()->id)
-                    ->required(),
-
+                
+                Forms\Components\TextInput::make('name')
+                    ->label('Nama Pengguna')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('review')
                     ->label('Review')
                     ->required()
@@ -40,7 +41,6 @@ class ReviewResource extends Resource
                 Forms\Components\FileUpload::make('photo')
                     ->label('Gambar')
                     ->image()
-                    ->required()
                     ->maxSize(2048) // 2MB
                     ->disk('public')
                     ->columnSpanFull()
@@ -52,27 +52,23 @@ class ReviewResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('User')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama')
                     ->sortable()
                     ->searchable(),
-
                 Tables\Columns\TextColumn::make('review')
+                    ->label('Review')
                     ->limit(50)
                     ->wrap(),
-
                 Tables\Columns\TextColumn::make('visit_date')
-                    ->label('Visit Date')
+                    ->label('Tanggal Kunjungan')
                     ->date()
                     ->sortable(),
-
-                // Tables\Columns\ImageColumn::make('photo')
-                //     ->label('Photo')
-                //     ->disk('public')
-                //     ->circular()
-                //     ->defaultImageUrl(asset('storage/reviews/photos/01K27KQAKW2XT4589S8KPMJ40C.png')),
-
-
+                Tables\Columns\ImageColumn::make('photo')
+                    ->label('Photo')
+                    ->disk('public')
+                    ->defaultImageUrl(asset('assets/images/avatar.png')) // Default image if none provided
+                    ->circular(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Created At')

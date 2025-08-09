@@ -2,22 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Review extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'name',
         'review',
         'visit_date',
         'photo',
     ];
 
-    public function user()
+    public static $oneDayInSeconds = 86400; 
+
+    public static function getCacheReview()
     {
-        return $this->belongsTo(User::class);
+        return Cache::remember('reviews', self::$oneDayInSeconds, function () {
+            return self::all();
+        });
     }
+    
 }
