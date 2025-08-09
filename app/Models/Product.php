@@ -15,11 +15,16 @@ class Product extends Model
         'slug',
         'description',
         'category',
-        'image',
+        'images', // ganti dari image ke images
         'excerpt',
         'price',
         'stock',
     ];
+
+    protected $casts = [
+        'images' => 'array', // supaya otomatis jadi array
+    ];
+
 
     /**
      * Boot method untuk generate slug otomatis saat membuat atau update product.

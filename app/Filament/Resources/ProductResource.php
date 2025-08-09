@@ -77,13 +77,14 @@ class ProductResource extends Resource
                 Hidden::make('excerpt')
                     ->label('Excerpt (Opsional)'),
                     
-                FileUpload::make('image')
+                FileUpload::make('images')
                     ->label('Gambar')
                     ->image()
                     ->required()
                     ->maxSize(2048) // 2MB
                     ->disk('public')
                     ->columnSpanFull()
+                    ->multiple()
                     ->directory('products/images'),
                 TextInput::make('price')
                     ->label('Harga')
