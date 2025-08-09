@@ -10,29 +10,29 @@
                 <!-- Search Bar -->
                 <div class="flex-1 w-full">
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Cari produk favorit Anda..."
+                        <input wire:model.live="searchInput" type="text" id="searchInput" placeholder="Cari produk favorit Anda..."
                             class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
                         <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                </div>
+                </div>  
 
                 <!-- Category Filter -->
                 <div class="w-full lg:w-auto">
-                    <select id="categoryFilter" class="w-full lg:w-48 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                    <select wire:model.live="categoryFilter" id="categoryFilter" class="w-full lg:w-48 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
                         <option value="">Semua Kategori</option>
-                        <option value="seafood">Makanan</option>
-                        <option value="ayam">Snack</option>
-                        <option value="daging">Souvenir</option>
-                        <option value="vegetarian">Baju</option>
+                        <option value="makanan">Makanan</option>
+                        <option value="snack">Snack</option>
+                        <option value="souvenir">Souvenir</option>
+                        <option value="baju">Baju</option>
                         <option value="minuman">Minuman</option>
                     </select>
                 </div>
 
                 <!-- Price Filter -->
                 <div class="w-full lg:w-auto">
-                    <select id="priceFilter" class="w-full lg:w-48 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                    <select wire:model.live="priceFilter" id="priceFilter" class="w-full lg:w-48 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
                         <option value="">Semua Harga</option>
                         <option value="0-50000">Di bawah Rp 50.000</option>
                         <option value="50000-100000">Rp 50.000 - Rp 100.000</option>
@@ -43,7 +43,7 @@
 
                 <!-- Sort Filter -->
                 <div class="w-full lg:w-auto">
-                    <select id="sortFilter" class="w-full lg:w-48 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                    <select wire:model.live="sortFilter" id="sortFilter" class="w-full lg:w-48 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
                         <option value="">Urutkan</option>
                         <option value="name-asc">Nama A-Z</option>
                         <option value="name-desc">Nama Z-A</option>
@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- Clear Filters Button -->
-                <button id="clearFilters" class="w-full lg:w-auto bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full font-semibold transition-all">
+                <button wire:click="clearFilters" id="clearFilters" class="w-full lg:w-auto bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full font-semibold transition-all">
                     Reset Filter
                 </button>
             </div>
@@ -70,15 +70,16 @@
             $fullStars = floor($avgRating);
             $halfStar = $avgRating - $fullStars >= 0.5;
             $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+            $price = 'Rp ' . number_format($product->price, 0, ',', '.');
             @endphp
-            <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition flex flex-col" wire:key="product-{{ $product->id }}"
+            <div class="product-card bg-white shadow-lg hover:shadow-2xl transition flex flex-col hover:scale-105" wire:key="product-{{ $product->id }}"
                 data-category="{{ $product->category }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}" data-rating="{{ $avgRating }}">
                 <div class="relative">
                     <span class="absolute top-3 left-3 z-10 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                         Stok: {{ $product->stock }}
                     </span>
-                    <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/images/crab.jpg') }}"
-                        class="h-56 w-full object-cover transition-transform duration-300">
+                    <img src="{{ $product->images ? asset('storage/' . $product->images[0]) : asset('assets/images/crab.jpg') }}"
+                        class="h-56 w-full object-cover transition-transform duration-300 rounded-t-lg">
                     <!-- Like Button -->
                     @auth
                     <button wire:click="toggleLike({{ $product->id }})"
@@ -102,6 +103,9 @@
                 </div>
                 <div class="p-5 flex-1 flex flex-col">
                     <h2 class="font-bold text-xl mb-2 text-third">{{ $product->name }}</h2>
+                    <span class="bg-primary text-white w-fit px-3 py-1 rounded-full text-xs mb-2 inline-block">
+                        {{ $product->category }}
+                    </span>
 
                     <!-- Rating Stars -->
                     <div class="flex items-center mb-3">
@@ -133,13 +137,13 @@
                         <span class="text-sm text-gray-500 ml-2">({{ number_format($avgRating, 1) }})</span>
                     </div>
 
-                    <p class="text-gray-600 mb-4 flex-1">{{ $product->excerpt }}</p>
+                    <p class="text-gray-400 mb-4 flex-1">{{ $product->excerpt }}</p>
                     <div class="flex items-center justify-between mt-auto">
-                        <span class="text-lg font-bold text-primary">Rp 85.000</span>
-                        <div class="flex space-x-2">
-                            <button class="bg-primary hover:bg-primaryLight text-white text-sm px-4 py-2 rounded-full font-semibold shadow transition-all">Pesan</button>
-                            <a href="{{ route('products.show', $product->slug) }}" class="bg-secondary hover:bg-secondary/10 text-primary text-sm px-4 py-2 rounded-full font-semibold shadow transition-all">Detail</a>
-                        </div>
+                        <span class="text-lg font-bold text-primary">{{ $price }}</span>
+                    </div>
+                    <div class="flex w-full justify-between gap-2">
+                        <button class="w-full bg-primary hover:bg-primaryLight text-white text-sm px-4 py-2 rounded-md font-semibold shadow transition-all">Pesan</button>
+                        <a href="{{ route('products.show', $product->slug) }}" class="w-full text-center bg-secondary hover:bg-secondary/10 text-primary text-sm px-4 py-2 rounded-md font-semibold shadow transition-all">Detail</a>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique(); // Slug unik untuk URL friendly
             $table->text('description')->nullable(); // Deskripsi produk
             $table->string('category')->nullable();
-            $table->string('image')->nullable();
+            $table->json('images')->nullable();
             $table->string('excerpt')->nullable();
             $table->decimal('price', 10, 2); // Harga produk
             $table->integer('stock')->default(0); // Stok produk

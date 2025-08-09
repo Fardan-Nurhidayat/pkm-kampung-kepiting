@@ -18,11 +18,22 @@ class Show extends Component
     public $userRating;
     public $review;
 
+    public $fullStars;
+    public $halfStar;
+    public $emptyStars;
+    public $avgRating;
+
     public function mount($slug)
-    {        
+    {   
+
         $this->product = Product::where('slug', $slug)
             ->with(['product_likes', 'product_ratings.user'])
             ->firstOrFail();
+
+        $this->avgRating = $this->product->product_ratings->avg('rating');
+        $this->fullStars = floor($this->avgRating);
+        $this->halfStar = $this->avgRating - $this->fullStars >= 0.5;
+        $this->emptyStars = 5 - $this->fullStars - ($this->halfStar ? 1 : 0);     
 
         $this->products = Product::with(['product_likes', 'product_ratings'])
             ->orderBy('created_at', 'desc')
@@ -85,6 +96,11 @@ class Show extends Component
             ['product_id' => $this->product->id, 'user_id' => Auth::user()->id],
             ['rating' => $this->userRating, 'review' => $this->review]
         );
+
+        $this->avgRating = $this->product->product_ratings->avg('rating');
+        $this->fullStars = floor($this->avgRating);
+        $this->halfStar = $this->avgRating - $this->fullStars >= 0.5;
+        $this->emptyStars = 5 - $this->fullStars - ($this->halfStar ? 1 : 0); 
 
         session()->flash('message', 'Review berhasil disimpan!');
         $this->product->refresh();
