@@ -120,7 +120,7 @@
                 {{-- Tombol Aksi --}}
                 <div class="flex gap-4">
                     {{-- <button class="bg-third text-white px-6 py-3 rounded-lg hover:bg-opacity-90">Tambah ke Keranjang</button> --}}
-                    <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark">Beli Sekarang</a>
+                    <a href="{{'https://wa.me/'. $product->user->no_hp . '?text=Saya Ingin memesan ' . $product->name}}" target="_blank" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark">Beli Sekarang</a>
                 </div>
             </div>
         </div>

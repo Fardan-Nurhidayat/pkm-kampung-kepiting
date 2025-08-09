@@ -1,5 +1,4 @@
 <div>
-    @section('title', 'Produk Kami')
     <div class="h-16"></div>
     <section class="max-w-screen-2xl mx-auto px-4 py-16">
         <h1 class="text-4xl font-extrabold text-center mb-10 text-primary drop-shadow-lg">Silahkan Lihat Produk Kami</h1>
@@ -16,7 +15,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                </div>  
+                </div>
 
                 <!-- Category Filter -->
                 <div class="w-full lg:w-auto">
@@ -143,7 +142,7 @@
                         <span class="text-lg font-bold text-primary">{{ $price }}</span>
                     </div>
                     <div class="flex w-full justify-between gap-2">
-                        <button class="w-full bg-primary hover:bg-primaryLight text-white text-sm px-4 py-2 rounded-md font-semibold shadow transition-all">Pesan</button>
+                        <a href="{{'https://wa.me/' . $product->user->no_hp . '?text=saya ingin memesan ' . $product->name}}" target="_blank" class="w-full text-center bg-primary hover:bg-primaryLight text-white text-sm px-4 py-2 rounded-md font-semibold shadow transition-all">Pesan</=>
                         <a href="{{ route('products.show', $product->slug) }}" class="w-full text-center bg-secondary hover:bg-secondary/10 text-primary text-sm px-4 py-2 rounded-md font-semibold shadow transition-all">Detail</a>
                     </div>
                 </div>

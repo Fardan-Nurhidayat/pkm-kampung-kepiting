@@ -7,9 +7,9 @@ use App\Models\Product;
 use App\Models\ProductLike;
 use App\Models\ProductRating;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
-#[Layout('components.guest')]
+#[Title('Detail Produk')]
 class Show extends Component
 {
     public Product $product;
@@ -24,7 +24,7 @@ class Show extends Component
     public $emptyStars;
     public $avgRating;
 
-    
+
     public function mount($slug)
     {   
 

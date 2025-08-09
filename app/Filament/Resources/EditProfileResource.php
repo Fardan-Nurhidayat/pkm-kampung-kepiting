@@ -21,7 +21,7 @@ use Filament\Forms\Components\Select;
 
 class EditProfileResource extends Resource
 {
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $model = User::class;
 

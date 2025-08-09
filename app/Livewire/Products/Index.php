@@ -4,25 +4,40 @@ namespace App\Livewire\Products;
 
 use App\Models\Product;
 use App\Models\ProductLike;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;;
 
-#[Layout('components.guest')]
+use Livewire\Component;
+use Livewire\Attributes\Title;
+use WireUi\Traits\WireUiActions;
+use Livewire\WithPagination;
+
+#[Title('Produk Kami')]
 class Index extends Component
 {
+    use WireUiActions;
+
     public $searchInput = '';
     public $categoryFilter = '';
     public $priceFilter = '';
     public $sortFilter = '';
 
     public $products;
-    
+
     public function mount()
     {
         // Kosongkan, kita akan handle query di render()
         $this->products = collect();
     }
+
+    public function orderProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $message = "Halo, saya ingin memesan produk: {$product->name}";
+        $waUrl = "https://wa.me/{$product->user->no_hp}?text=" . urlencode($message);
+        return redirect()->to($waUrl);
+    }
+
+    public function sendToWa() {}
 
     public function updated($property)
     {
@@ -91,7 +106,7 @@ class Index extends Component
                 break;
             case 'rating-desc':
                 $query->withAvg('product_ratings', 'rating')
-                      ->orderBy('product_ratings_avg_rating', 'desc');
+                    ->orderBy('product_ratings_avg_rating', 'desc');
                 break;
             case 'newest':
                 $query->orderBy('created_at', 'desc');
