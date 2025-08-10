@@ -10,9 +10,11 @@
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <title>{{ "Kampoeng Kepiting | " .  $title ?? 'Page Title' }}</title>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @livewireScripts
+    <script src="{{ mix('js/app.js') }}"></script>
+
     <wireui:scripts />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
