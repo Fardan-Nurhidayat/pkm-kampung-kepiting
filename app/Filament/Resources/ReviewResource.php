@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ReviewResource\Pages;
-use App\Models\Review;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use App\Models\Review;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
+use Illuminate\Support\Facades\Cache;
+use App\Filament\Resources\ReviewResource\Pages;
 
 class ReviewResource extends Resource
 {
@@ -76,8 +77,14 @@ class ReviewResource extends Resource
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->after(function () {
+                    // Clear the cache after editing a Review
+                    Cache::forget('reviews');
+                }),
+                Tables\Actions\DeleteAction::make()->after(function () {
+                    // Clear the cache after deleting a Review
+                    Cache::forget('reviews');
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

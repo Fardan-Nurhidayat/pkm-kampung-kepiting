@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GaleriResource\Pages;
-use App\Models\Galeri;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Galeri;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Cache;
+use App\Filament\Resources\GaleriResource\Pages;
 
 class GaleriResource extends Resource
 {
@@ -54,8 +55,14 @@ class GaleriResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->after(function () {
+                    // Clear the cache after editing a Galeri
+                    Cache::forget('galeris');
+                }),
+                Tables\Actions\DeleteAction::make()->after(function () {
+                    // Clear the cache after deleting a Galeri
+                    Cache::forget('galeris');
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
