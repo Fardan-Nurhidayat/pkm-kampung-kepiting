@@ -85,6 +85,7 @@ class ProductResource extends Resource
                     ->maxSize(2048) // 2MB
                     ->disk('public')
                     ->columnSpanFull()
+                    ->required()
                     ->multiple()
                     ->directory('products/images'),
                 TextInput::make('price')

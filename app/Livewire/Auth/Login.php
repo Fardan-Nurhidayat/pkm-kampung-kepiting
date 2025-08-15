@@ -34,7 +34,7 @@ class Login extends Component
             'remember.boolean' => 'Pilihan ingat saya tidak valid.',
         ]);
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            $this->addError('email', trans('auth.failed'));
+            $this->addError('email', 'Email atau kata sandi salah.');
             return;
         }
         $roles = Auth::user()->getRoleNames()->first();

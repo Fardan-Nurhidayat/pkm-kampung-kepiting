@@ -17,9 +17,13 @@ class Email extends Component
     {
         $this->validate([
             'email' => ['required', 'email'],
+        ] , [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
         ]);
-
+        
         $response = $this->broker()->sendResetLink(['email' => $this->email]);
+        
 
         if ($response == Password::RESET_LINK_SENT) {
             $this->emailSentMessage = trans($response);

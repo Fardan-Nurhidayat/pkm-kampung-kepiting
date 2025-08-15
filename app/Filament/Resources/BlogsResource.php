@@ -78,6 +78,7 @@ class BlogsResource extends Resource
                     ->multiple()
                     ->maxParallelUploads(1)
                     ->image()
+                    ->required()
                     ->visibility('public')
                     ->maxSize(2048) // 2MB
                     ->disk('public')

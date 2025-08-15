@@ -128,7 +128,7 @@
       {{-- Menu Andalan --}}
       <h3 class="text-2xl font-semibold text-center mb-8">Menu Andalan Kami</h3>
       <div class="grid md:grid-cols-3 gap-8">
-        @foreach($bestProducts as $product)
+        @forelse($bestProducts as $product)
         <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
           <img src="{{ asset('storage/' . $product->images[0]) }}" alt="{{ $product->name }}"
             class="w-full h-48 object-cover rounded-lg mb-4">
@@ -136,7 +136,9 @@
           <p class="text-gray-600 mb-4">{{ $product->excerpt }}</p>
           <span class="text-lg font-bold text-primary">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
         </div>
-        @endforeach
+        @empty
+        <div class="col-span-full text-center mx-auto text-gray-400">Belum ada daftar menu</div>
+        @endforelse
       </div>
     </div>
   </section>

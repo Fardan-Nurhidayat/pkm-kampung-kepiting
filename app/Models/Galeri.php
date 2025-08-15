@@ -14,7 +14,7 @@ class Galeri extends Model
 
     public static $oneDayInSeconds = 86400; // 24 hours in seconds
     public static function getGaleriCache(){
-        return Cache::remember('galeri', self::$oneDayInSeconds, function () {
+        return Cache::remember('galeris', self::$oneDayInSeconds, function () {
             return self::all();
         });
     }

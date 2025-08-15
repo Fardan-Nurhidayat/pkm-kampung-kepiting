@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->favicon(asset('assets/images/favicon.png'))
             ->brandName('PKM PNC')
             ->spa()
             ->id('admin')

@@ -36,6 +36,13 @@ class Reset extends Component
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|same:passwordConfirmation',
+        ] , [
+            'token.required' => 'Token reset password wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+            'password.same' => 'Kata sandi dan konfirmasi kata sandi harus sama.',
         ]);
 
         $response = $this->broker()->reset(
