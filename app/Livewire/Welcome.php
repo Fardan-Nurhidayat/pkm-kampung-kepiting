@@ -9,7 +9,7 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 
-#[Title('Welcome')]
+#[Title('Home')]
 #[Computed(persist: true, seconds: 86400)]
 class Welcome extends Component
 {

@@ -9,10 +9,10 @@
     <link rel="shortcut icon" href="{{ url(asset('assets/images/favicon.png')) }}">
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <title>{{ "Kampoeng Kepiting | " .  $title ?? 'Page Title' }}</title>
+    {{-- <title>{{ "Kampoeng Kepiting | " .  $title ?? 'Page Title' }}</title> --}}
+    <title>{{ $title . ' - ' ."Kampoeng Kepiting" }}</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
-    @livewireScripts
     <wireui:scripts />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -23,7 +23,8 @@
     <x-dialog z-index="z-50" blur="md" align="center" />
     {{ $slot }}
     <x-footer />
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @livewireScripts
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
 </body>
 
 </html>
