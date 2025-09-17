@@ -9,10 +9,9 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-
 use WireUi\Traits\WireUiActions;
 
-#[Title('Blogs')]
+#[Title('Blogs - Kampoeng Kepiting')]
 class Blogs extends Component
 {
     use WireUiActions;
@@ -37,10 +36,11 @@ class Blogs extends Component
             ->toArray();
     }
 
-    #[Computed(true, 600, false , 'blogs')]
+    #[Computed] // non-cached computed untuk menghindari hasil stale dari cache
     public function blogs()
     {
-        $query = BlogModel::with(['author', 'likes']);
+        $query = BlogModel::with(['author', 'likes'])
+            ->withCount('likes'); // selalu hitung likes_count untuk konsistensi tampilan
 
         // Apply search filter
         if ($this->searchQuery) {
@@ -65,7 +65,8 @@ class Blogs extends Component
                 $query->orderBy('created_at', 'asc');
                 break;
             case 'popular':
-                $query->withCount('likes')->orderBy('likes_count', 'desc');
+                // withCount sudah ditambahkan di atas
+                $query->orderBy('likes_count', 'desc');
                 break;
             case 'az':
                 $query->orderBy('title', 'asc');
@@ -75,7 +76,7 @@ class Blogs extends Component
                 break;
         }
 
-        return $query->paginate(12);
+        return $query->paginate(9);
     }
 
     public function clearFilters()

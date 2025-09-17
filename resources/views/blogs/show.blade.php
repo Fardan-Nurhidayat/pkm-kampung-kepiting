@@ -103,7 +103,7 @@
     {{-- Share Section --}}
     <div class="mt-12 pt-8 border-t border-gray-200">
       <h3 class="text-xl font-semibold text-third mb-4">Bagikan Artikel Ini</h3>
-      <div class="flex gap-3">
+      <div class="flex gap-3 sm:flex-row flex-col items-start">
         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank"
           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
