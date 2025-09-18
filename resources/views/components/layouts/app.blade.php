@@ -24,7 +24,9 @@
     {{-- Include Navbar --}}
     <x-navbar-home />
     <x-dialog z-index="z-50" blur="md" align="center" />
-    {{ $slot }}
+    <main class="min-h-screen pb-24">
+        {{ $slot }}
+    </main>
     <x-footer />
     @livewireScripts
     {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
