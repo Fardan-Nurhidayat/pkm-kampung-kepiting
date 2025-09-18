@@ -28,13 +28,14 @@
               class="block absolute left-0 right-0 top-0" x-text="word"></span>
           </template>
         </span>
-        <span>Dengan Keluarga Bersama Kampung Kepiting</span>
+        <span>Dengan Keluarga Bersama Kampoeng Kepiting</span>
       </h1>
       <p class="text-[15px] md:text-[15px] mb-8 text-gray-700 max-w-xl">
         Nikmati pengalaman kuliner yang tak terlupakan dengan kepiting segar dari hutan mangrove, sambil belajar dan
         berwisata di Kampung Kepiting. Dapatkan cita rasa lokal yang autentik dan dukung pelestarian alam.
       </p>
       <a href="#contact"
+        @click.prevent="document.getElementById('contact')?.scrollIntoView({behavior: 'smooth', block: 'start'})"
         class="inline-block bg-primary hover:bg-primaryLight text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-200 text-[23px]">
         Reservasi Sekarang
       </a>
@@ -119,9 +120,9 @@
       {{-- Galeri Foto --}}
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
         @foreach($galeris as $galeri)
-        <a href="{{asset('storage/' . $galeri->image)}}" target="_blank" class="rounded-xl overflow-hidden shadow hover:scale-105 transition">
-          <img src="{{asset('storage/' . $galeri->image)}}" alt="{{$galeri->title}}"
-            class="w-full h-40 object-cover">
+        <a href="{{asset('storage/' . $galeri->image)}}" target="_blank"
+          class="rounded-xl overflow-hidden shadow hover:scale-105 transition">
+          <img src="{{asset('storage/' . $galeri->image)}}" alt="{{$galeri->title}}" class="w-full h-40 object-cover">
         </a>
         @endforeach
       </div>
@@ -150,12 +151,13 @@
       <div class="grid md:grid-cols-2 gap-8">
         @forelse($reviews as $review)
         <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center">
-          <img src="{{ $review->photo ? asset('storage/' . $review->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($review->name) . '&background=random' }}"
-            alt="{{ $review->name }}"
-            class="w-20 h-20 rounded-full object-cover mb-4 shadow">
+          <img
+            src="{{ $review->photo ? asset('storage/' . $review->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($review->name) . '&background=random' }}"
+            alt="{{ $review->name }}" class="w-20 h-20 rounded-full object-cover mb-4 shadow">
           <blockquote class="italic text-gray-600 mb-4">"{{ $review->review }}"</blockquote>
           <div class="font-semibold text-gray-800">{{ $review->name }}</div>
-          <div class="text-gray-400 text-sm">{{ \Carbon\Carbon::parse($review->visit_date)->translatedFormat('d F Y') }}</div>
+          <div class="text-gray-400 text-sm">{{ \Carbon\Carbon::parse($review->visit_date)->translatedFormat('d F Y') }}
+          </div>
         </div>
         @empty
         <div class="col-span-2 text-center text-gray-400">Belum ada review dari pengunjung.</div>
@@ -188,7 +190,7 @@
                   <path
                     d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z" />
                 </svg>
-                <span>@kampoengkepiting29</span>
+                <a href="https://www.instagram.com/kampoeng_kepiting_29/" class="text-blue-600 hover:underline">@kampoeng_kepiting_29</a>
               </div>
           </div>
           <div class="mt-8">

@@ -11,7 +11,7 @@ use Livewire\Attributes\Title;
 use WireUi\Traits\WireUiActions;
 use Livewire\WithPagination;
 
-#[Title('Produk Kami')]
+#[Title('Produk - Kampoeng Kepiting')]
 class Index extends Component
 {
     use WireUiActions;

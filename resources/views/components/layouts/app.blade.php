@@ -8,25 +8,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Kampoeng Kepiting">
     <meta name="description" content="Kampoeng Kepiting Kutawaru - Surga Kepiting di Ujung Selatan Jawa">
-    <meta name="keywords" content="kampoeng kepiting, kampung kepiting, kampoeng kepiting kutawaru, kampung kepiting kutawaru, kepiting kutawaru, kepiting segar , kepiting fresh, kepiting murah, kepiting enak, kepiting segar kutawaru, kepiting fresh kutawaru, kepiting murah kutawaru, kepiting enak kutawaru , restoran seafood , wisata kepiting">
+    <meta name="keywords" content="kampoeng kepiting, kampung kepiting, kampoeng kepiting kutawaru, kampung kepiting kutawaru, kepiting kutawaru, kepiting segar , kepiting fresh, kepiting murah, kepiting enak, kepiting segar kutawaru, kepiting fresh kutawaru, kepiting murah kutawaru, kepiting enak kutawaru , restoran seafood , wisata kuliner, wisata kuliner surabaya, wisata kuliner sidoarjo, wisata kuliner jatim, wisata kuliner jawa timur, wisata kuliner pantai, wisata kuliner pantai selatan, wisata kuliner pantai selatan jawa, seafood pantai selatan, seafood pantai selatan jawa">
     <link rel="shortcut icon" href="{{ url(asset('assets/images/favicon.png')) }}">
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <title>{{ $title ?? 'Kampoeng Kepiting' }}</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
-    @livewireScripts
     <wireui:scripts />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
-<body>
+<body class="antialiased scroll-smooth">
+    {{-- Include Navbar --}}
     <x-navbar-home />
     <x-dialog z-index="z-50" blur="md" align="center" />
     {{ $slot }}
     <x-footer />
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @livewireScripts
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
 </body>
 
 </html>
