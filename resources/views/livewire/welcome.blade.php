@@ -41,6 +41,20 @@
     </div>
   </section>
 
+  <!-- Flipbook Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-4 text-text">Ebook Petualangan Si Piku, Rahasia Di Kampoeng Kepiting</h2>
+      <div class="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+        <iframe src="{{ route('flipbook') }}" class="absolute top-0 left-0 w-full h-full border-none" allowfullscreen></iframe>
+      </div>
+      <div class="mt-8 text-center">
+        <p class="text-gray-600 italic">"Jelajahi petualangan seru bersama Si Piku di Kampoeng Kepiting melalui buku cerita interaktif kami."</p>
+      </div>
+    </div>
+  </section>
+  <!-- End Of Flipbook Section -->
+
   {{-- Interest Section --}}
   <section class="py-20">
     <div class="max-w-6xl mx-auto px-4">

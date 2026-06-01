@@ -29,7 +29,7 @@ use App\Livewire\Products\Show as ProductShow;
 */
 
 Route::get('/', \App\Livewire\Welcome::class)->name('home');
-// Route::view('/products', 'products.index')->name('products');
+Route::view('/petualangan-si-piku', 'flipbook.index')->name('flipbook');
 Route::get('/products', ProductIndex::class)->name('products');
 Route::get('/produk/{slug}', ProductShow::class)->name('products.show');
 Route::resource('blogs', BlogsController::class)->only(['show']);
